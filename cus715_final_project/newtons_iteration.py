@@ -1,6 +1,5 @@
 from scipy.misc import derivative
-from math import ceil
-import numpy as np
+
 
 # basic newton iteration algorithm
 def newton(func, estimate, min_error=.0001):
@@ -33,24 +32,6 @@ def newton_div(a, min_error=.0001):
         estimate = estimate * (2 - (a * estimate))
         diff = estimate - old_estimate
     return estimate
-
-
-# based off of code from
-# https://moodle.polytechnique.fr/pluginfile.php/116142/mod_resource/content/1/04-Newton.pdf
-def invert_series(ma):
-    n = len(ma)
-    if n == 1:
-        return [-1/ma[0]]
-    k = int(ceil(n / 2))
-    x = invert_series(ma[:k])+[0]*(n-k)
-    # t = np.multiply(s, ma)
-    t = np.dot(ma, x, n)  # -x*s
-    t[0] += 1  # 1-a*s
-    return np.add(x, np.dot(x, t, n))  # x+x(1-x*s)
-
-
-def newton_invert(a):
-    return invert_series(np.dot(-1, a))
 
 
 if __name__ == '__main__':
